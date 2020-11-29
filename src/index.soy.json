@@ -1,0 +1,147 @@
+{
+  "version": 1,
+  "global": {},
+  "let": {
+    "root": {
+      "template": "html.layout.root",
+      "data": {
+        "content": "mainContent"
+      }
+    },
+    "mainContent": {
+      "template": "html.layout.paged",
+      "data": {
+        "pages": "mainPages"
+      }
+    },
+    "mainPages": {
+      "list": [
+        "mainMenuPage"
+      ]
+    },
+    "mainMenuPage": {
+      "template": "html.layout.row",
+      "data": {
+        "columns": "mainMenuColumns"
+      }
+    },
+    "mainMenuColumns": {
+      "list": [
+        "mainMenuImageColumn",
+        "mainMenuOptionsColumn"
+      ]
+    },
+    "mainMenuImageColumn": {
+      "template": "html.layout.column",
+      "data": {
+        "width": "mainMenuImageColumnWidth",
+        "content": "mainMenuImage"
+      }
+    },
+    "mainMenuImageColumnWidth": {
+      "map": {
+        "xs": "mainMenuImageColumnWidthXs",
+        "md": "mainMenuImageColumnWidthMd"
+      }
+    },
+    "mainMenuImageColumnWidthXs": {
+      "literal": 12
+    },
+    "mainMenuImageColumnWidthMd": {
+      "literal": 8
+    },
+    "mainMenuImage": {
+      "template": "html.component.image",
+      "data": {
+        "src": "mainMenuImageSrc",
+        "alt": "mainMenuImageAlt"
+      }
+    },
+    "mainMenuImageSrc": {
+      "asset": "mainMenuImage"
+    },
+    "mainMenuImageAlt": {
+      "string": "mainMenuImageAlt"
+    },
+    "mainMenuOptionsColumn": {
+      "template": "html.layout.column",
+      "data": {
+        "width": "mainMenuOptionsColumnWidth",
+        "content": "mainMenuOptionsColumnContent"
+      }
+    },
+    "mainMenuOptionsColumnWidth": {
+      "map": {
+        "xs": "mainMenuOptionsColumnWidthXs",
+        "md": "mainMenuOptionsColumnWidthMd"
+      }
+    },
+    "mainMenuOptionsColumnWidthXs": {
+      "literal": 12
+    },
+    "mainMenuOptionsColumnWidthMd": {
+      "literal": 8
+    },
+    "mainMenuOptionsColumnContent": {
+      "template": "html.layout.row",
+      "data": {
+        "columns": "mainMenuOptionsButtonColumns"
+      }
+    },
+    "mainMenuOptionsButtonColumns": {
+      "list": [
+        "guessFlagButtonColumn",
+        "guessCountryButtonColumn"
+      ]
+    },
+    "guessFlagButtonColumn": {
+      "template": "html.layout.column",
+      "data": {
+        "width": "mainMenuButtonColumnWidth",
+        "content": "guessFlagButton"
+      }
+    },
+    "guessCountryButtonColumn": {
+      "template": "html.layout.column",
+      "data": {
+        "width": "mainMenuButtonColumnWidth",
+        "content": "guessCountryButton"
+      }
+    },
+    "mainMenuButtonColumnWidth": {
+      "map": {
+        "xs": "mainMenuButtonColumnWidthXs",
+        "sm": "mainMenuButtonColumnWidthSm",
+        "md": "mainMenuButtonColumnWidthMd"
+      }
+    },
+    "mainMenuButtonColumnWidthXs": {
+      "literal": 12
+    },
+    "mainMenuButtonColumnWidthSm": {
+      "literal": 6
+    },
+    "mainMenuButtonColumnWidthMd": {
+      "literal": 12
+    },
+    "guessFlagButton": {
+      "template": "html.component.button",
+      "data": {
+        "content": "guessFlagButtonContent"
+      }
+    },
+    "guessFlagButtonContent": {
+      "string": "guessFlagTitle"
+    },
+    "guessCountryButton": {
+      "template": "html.component.button",
+      "data": {
+        "content": "guessCountryButtonContent"
+      }
+    },
+    "guessCountryButtonContent": {
+      "string": "guessCountryTitle"
+    }
+  },
+  "content": "root"
+}
