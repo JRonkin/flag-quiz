@@ -1,0 +1,45 @@
+*,
+::after,
+::before
+{
+  margin: 0;
+  box-sizing: border-box;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+  vertical-align: baseline;
+  text-decoration: none;
+  color: inherit;
+  font: inherit;
+  font-size: 100%;
+}
+
+button
+{
+  cursor: pointer;
+}
+
+html
+{
+  height: 100%;
+}
+
+body
+{
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+
+.App
+{
+  flex-grow: 1;
+}
+
+.App[data-page="0"] .App-page:not(:nth-child(1)),
+.App[data-page="1"] .App-page:not(:nth-child(2)),
+.App[data-page="2"] .App-page:not(:nth-child(3))
+{
+  display: none;
+}
