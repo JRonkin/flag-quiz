@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
 
     <title>
       Flag Quiz
@@ -27,52 +28,82 @@
   <body>
     <main id="app" class="App" data-page="0">
       <div class="App-page">
-        <h1>
+        <h1 class="App-pageTitle">
           Flag Quiz
         </h1>
 
-        <button class="js-guess-country">
-          Guess the Country
-        </button>
-        <button class="js-guess-flag">
-          Guess the Flag
-        </button>
-      </div>
-
-      <div class="App-page">
-        <h2>
-          Guess the Country
-        </h2>
-
-        <img class="js-question-flag" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
-
-        <div class="Answers">
-          <button class="js-answer-country"></button>
-          <button class="js-answer-country"></button>
-          <button class="js-answer-country"></button>
-          <button class="js-answer-country"></button>
+        <div class="App-pageContent Home">
+          <div class="Home-menu Row">
+            <div class="Col Col-6">
+              <button class="Home-button Button--primary js-guess-country">
+                Guess the Country
+              </button>
+            </div>
+            <div class="Col Col-6">
+              <button class="Home-button Button--primary js-guess-flag">
+                Guess the Flag
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
       <div class="App-page">
-        <h2>
+        <h2 class="App-pageTitle">
+          Guess the Country
+        </h2>
+
+        <div class="App-pageContent">
+          <img class="GuessCountry-flag js-question-flag" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
+
+          <div class="GuessCountry-answers Row">
+            <div class="Col Col-6">
+              <button class="GuessCountry-answer Button--primary js-answer-country"></button>
+            </div>
+            <div class="Col Col-6">
+              <button class="GuessCountry-answer Button--primary js-answer-country"></button>
+            </div>
+            <div class="Col Col-6">
+              <button class="GuessCountry-answer Button--primary js-answer-country"></button>
+            </div>
+            <div class="Col Col-6">
+              <button class="GuessCountry-answer Button--primary js-answer-country"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="App-page">
+        <h2 class="App-pageTitle">
           Guess the Flag
         </h2>
 
-        <span class="js-question-country"></span>
+        <div class="App-pageContent">
+          <div class="GuessFlag-country js-question-country"></div>
 
-        <button class="js-answer-flag">
-          <img class="js-answer-flag-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
-        </button>
-        <button class="js-answer-flag">
-          <img class="js-answer-flag-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
-        </button>
-        <button class="js-answer-flag">
-          <img class="js-answer-flag-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
-        </button>
-        <button class="js-answer-flag">
-          <img class="js-answer-flag-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
-        </button>
+          <div class="GuessFlag-answers Row">
+            <div class="Col Col-6">
+              <button class="GuessFlag-answer js-answer-flag">
+                <img class="GuessFlag-flag js-answer-flag-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
+              </button>
+            </div>
+            <div class="Col Col-6">
+              <button class="GuessFlag-answer js-answer-flag">
+                <img class="GuessFlag-flag js-answer-flag-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
+              </button>
+            </div>
+            <div class="Col Col-6">
+              <button class="GuessFlag-answer js-answer-flag">
+                <img class="GuessFlag-flag js-answer-flag-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
+              </button>
+            </div>
+            <div class="Col Col-6">
+              <button class="GuessFlag-answer js-answer-flag">
+                <img class="GuessFlag-flag js-answer-flag-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
   </body>

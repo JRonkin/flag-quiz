@@ -1,3 +1,17 @@
+/* Variables */
+
+:root
+{
+  --background-primary: white;
+
+  --text-primary: black;
+  --text-secondary: white;
+
+  --color-primary: #e04623;
+}
+
+/* Base */
+
 *,
 ::after,
 ::before
@@ -15,10 +29,25 @@
   font-size: 100%;
 }
 
+*:focus
+{
+  outline: none;
+}
+
 button
 {
   cursor: pointer;
 }
+
+img,
+svg
+{
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Layout */
 
 html
 {
@@ -32,9 +61,58 @@ body
   flex-direction: column;
 }
 
+.Row
+{
+  display: flex;
+  margin-top: -1rem;
+  margin-left: -1rem;
+  flex-wrap: wrap;
+}
+
+.Col
+{
+  padding-top: 1rem;
+  padding-left: 1rem;
+}
+
+.Col-6
+{
+  width: 50%;
+}
+
+/* Common Modules */
+
+.Button--primary
+{
+  border-radius: 9999px;
+  background-color: var(--color-primary);
+  padding: 1rem;
+  text-align: center;
+  color: var(--text-secondary);
+  font-weight: bold;
+}
+
+.Button--primary:hover,
+.Button--primary:focus
+{
+  filter: brightness(90%);
+}
+
+/* App Module */
+
 .App
 {
+  height: 100%;
   flex-grow: 1;
+}
+
+.App-page
+{
+  display: flex;
+  margin: auto;
+  height: 100%;
+  padding: 2rem 1rem;
+  flex-direction: column;
 }
 
 .App[data-page="0"] .App-page:not(:nth-child(1)),
@@ -42,4 +120,76 @@ body
 .App[data-page="2"] .App-page:not(:nth-child(3))
 {
   display: none;
+}
+
+.App-pageTitle
+{
+  margin-bottom: 2rem;
+  text-align: center;
+  font-size: 3rem;
+}
+
+.App-pageContent
+{
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+}
+
+/* Home Page */
+
+.Home-button
+{
+  width: 100%;
+  height: 100%;
+}
+
+/* Guess Country Page */
+
+.GuessCountry-flag
+{
+  width: 100%;
+  height: 0;
+  flex-grow: 1;
+}
+
+.GuessCountry-answers
+{
+  margin-top: 2rem;
+  flex-shrink: 0;
+}
+
+.GuessCountry-answer
+{
+  width: 100%;
+  height: 100%;
+}
+
+/* Guess Flag Page */
+
+.GuessFlag-country
+{
+  text-align: center;
+  font-size: 2rem;
+}
+
+.GuessFlag-answers
+{
+  margin-top: 2rem;
+}
+
+.GuessFlag-answer
+{
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.GuessFlag-flag
+{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }

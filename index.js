@@ -74,21 +74,12 @@ class FlagQuiz extends App {
   init() {
     super.init();
 
-    this.showGuessCountryPage = () => {
-      this.newCountryQuestion();
-      this.showPage(this.constructor.PAGE_GUESS_COUNTRY);
-    };
-    this.showGuessFlagPage = () => {
-      this.newFlagQuestion();
-      this.showPage(this.constructor.PAGE_GUESS_FLAG);
-    };
-
     for (const guessCountryButton of this.element.querySelectorAll('.js-guess-country')) {
-      guessCountryButton.addEventListener('click', this.showGuessCountryPage);
+      guessCountryButton.addEventListener('click', () => this.showGuessCountryPage());
     }
 
     for (const guessFlagButton of this.element.querySelectorAll('.js-guess-flag')) {
-      guessFlagButton.addEventListener('click', this.showGuessFlagPage);
+      guessFlagButton.addEventListener('click', () => this.showGuessFlagPage());
     }
 
     this.questionFlagEls = [...this.element.querySelectorAll('.js-question-flag')];
@@ -155,6 +146,18 @@ class FlagQuiz extends App {
         el.isCorrectAnswer = i == correctAnswer;
       });
     }
+  }
+
+  async showGuessCountryPage() {
+    await this.ready();
+    this.newCountryQuestion();
+    this.showPage(this.constructor.PAGE_GUESS_COUNTRY);
+  }
+
+  async showGuessFlagPage() {
+    await this.ready();
+    this.newFlagQuestion();
+    this.showPage(this.constructor.PAGE_GUESS_FLAG);
   }
 
   async ready() {
