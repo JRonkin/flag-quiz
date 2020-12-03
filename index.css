@@ -2,7 +2,7 @@
 
 :root
 {
-  --background-primary: white;
+  --background-primary: #ddd7d2;
 
   --text-primary: black;
   --text-secondary: white;
@@ -123,6 +123,7 @@ body
 {
   height: 100%;
   flex-grow: 1;
+  background: var(--background-primary);
 }
 
 .App-page
