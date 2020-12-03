@@ -24,7 +24,9 @@ class App {
   }
 
   init() {
-    this.showHomePage = this.showPage.bind(this, this.constructor.PAGE_HOME);
+    for (const guessCountryButton of document.querySelectorAll('.js-home')) {
+      guessCountryButton.addEventListener('click', () => this.showHomePage());
+    }
   }
 
   showPage(num) {
@@ -33,6 +35,10 @@ class App {
     if (!isNaN(pageNum)) {
       this.element.dataset.page = Math.max(0, pageNum);
     }
+  }
+
+  showHomePage() {
+    this.showPage(this.constructor.PAGE_HOME);
   }
 }
 

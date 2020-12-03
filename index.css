@@ -98,6 +98,20 @@ body
   filter: brightness(90%);
 }
 
+/* Header Module */
+
+.Header
+{
+  background-color: var(--color-primary);
+  padding: 1rem;
+  color: var(--text-secondary);
+}
+
+.Header-home
+{
+  font-weight: bold;
+}
+
 /* App Module */
 
 .App
