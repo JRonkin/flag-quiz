@@ -1,0 +1,16 @@
+{
+  "background_color": "#fff",
+  "description": "Test your knowledge of flags around the world. Ad-free quiz game, no internet required.",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "lang": "en",
+  "name": "Flag Quiz",
+  "short_name": "Flag Quiz",
+  "start_url": "."
+}
