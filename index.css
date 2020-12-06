@@ -8,6 +8,10 @@
   --text-secondary: white;
 
   --color-primary: #e04623;
+
+  --font-family-main: system-ui,sans-serif;
+  --font-family-heading: Helvetica,var(--font-family-main);
+  --font-family-title: 'Luckiest Guy',var(--font-family-heading);
 }
 
 /* Base */
@@ -90,9 +94,30 @@ body
 
 /* Common Modules */
 
+.Text
+{
+  font-family: var(--font-family-main);
+}
+
+.Title
+{
+  text-align: center;
+  font-size: 4rem;
+  letter-spacing: 2px;
+  font-family: var(--font-family-title);
+}
+
+.Heading
+{
+  text-align: center;
+  font-size: 3rem;
+  font-family: var(--font-family-heading);
+  font-weight: bold;
+}
+
 .Button--primary
 {
-  border-radius: 9999px;
+  border-radius: 8px;
   background-color: var(--color-primary);
   padding: 1rem;
   text-align: center;
@@ -117,6 +142,8 @@ body
 
 .Header-home
 {
+  display: block;
+  margin-left: auto;
   font-weight: bold;
 }
 
@@ -145,13 +172,6 @@ body
   display: none;
 }
 
-.App-pageTitle
-{
-  margin-bottom: 2rem;
-  text-align: center;
-  font-size: 3rem;
-}
-
 .App-pageContent
 {
   display: flex;
@@ -162,16 +182,9 @@ body
 
 /* Home Page */
 
-.Home-loading
+.Home-title
 {
-  text-align: center;
-}
-
-.App[data-loaded] .Home-loading,
-.App:not([data-loaded="false"]) .Home-error,
-.App:not([data-loaded="true"]) .Home-menu
-{
-  display: none;
+  margin-bottom: 2rem;
 }
 
 .Home-image
@@ -183,13 +196,30 @@ body
   object-fit: contain;
 }
 
+.Home-loading
+{
+  text-align: center;
+}
+
 .Home-button
 {
   width: 100%;
   height: 100%;
 }
 
+.App[data-loaded] .Home-loading,
+.App:not([data-loaded="false"]) .Home-error,
+.App:not([data-loaded="true"]) .Home-menu
+{
+  display: none;
+}
+
 /* Guess Country Page */
+
+.GuessCountry-title
+{
+  margin-bottom: 2rem;
+}
 
 .GuessCountry-flag
 {
@@ -212,6 +242,11 @@ body
 }
 
 /* Guess Flag Page */
+
+.GuessFlag-title
+{
+  margin-bottom: 2rem;
+}
 
 .GuessFlag-country
 {
