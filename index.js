@@ -115,6 +115,60 @@ class FlagQuiz extends App {
     return `https://raw.githubusercontent.com/hjnilsson/country-flags/master/svg/${countryCode.toLowerCase()}.svg`;
   }
 
+  static async _getCountries() {
+    const countries = await fetch(this._COUNTRIES_JSON_URL).then(resp => resp.json());
+
+    if (typeof countries != 'object') {
+      throw new Error(`Country data from '${this._COUNTRIES_JSON_URL}' is formatted incorrectly`);
+    }
+
+    this._EXCLUDED_COUNTRIES.forEach(countryCode => delete countries[countryCode]);
+
+    return countries;
+  }
+
+  static async _getFlagAltText(countryCode) {
+    // TODO -- Good descriptions on this page: http://jmatchparser.sourceforge.net/factbook/mobile/flags2.html
+    return '';
+  }
+
+  static async _getFlagImage(countryCode) {
+    const url = this._flagUrl(countryCode);
+    let response = await this._getCachedResponse(this._CACHES.flags, url);
+
+    if (!response) {
+      response = await fetch(url);
+
+      if (response.status < 400) {
+        this._cacheResponse(this._CACHES.flags, url, response.clone());
+      } else {
+        throw new Error(`Failed to fetch flag image for ${countryCode}. Response from ${url} was "${response.status}: ${response.statusText}"`);
+      }
+    }
+
+    return 'data:image/svg+xml;base64,' + btoa(await response.text());
+  }
+
+  static _setFlagImage(img, countryCode) {
+    img._countryCode = countryCode;
+    img.src = DEFAULT_IMAGE;
+    img.alt = '';
+
+    this._getFlagImage(countryCode)
+      .then(src => {
+        if (img._countryCode == countryCode) {
+          img.src = src;
+        }
+      });
+
+    this._getFlagAltText(countryCode)
+      .then(alt => {
+        if (img._countryCode == countryCode) {
+          img.alt = alt;
+        }
+      });
+  }
+
   constructor(element) {
     super(element);
 
@@ -170,7 +224,7 @@ class FlagQuiz extends App {
 
   async load() {
     try {
-      this.countries = await this._getCountries();
+      this.countries = await this.constructor._getCountries();
       this.countryQueue = shuffle(Object.keys(this.countries));
       this.countryPool = this.countryQueue.splice(this.countryQueue.length / 2);
       await this._cacheAllFlags();
@@ -186,7 +240,7 @@ class FlagQuiz extends App {
     if (countries.length && countries.length == this.answerCountryEls.length) {
       const correctAnswer = Math.floor(Math.random() * countries.length);
 
-      this.questionFlagEls.forEach(el => this._setFlagImage(el, countries[correctAnswer]));
+      this.questionFlagEls.forEach(el => this.constructor._setFlagImage(el, countries[correctAnswer]));
       this.answerCountryEls.forEach((el, i) => {
         el.innerText = this.countries[countries[i]];
         el.style.visibility = '';
@@ -203,7 +257,7 @@ class FlagQuiz extends App {
 
       this.questionCountryEls.forEach(el => el.innerText = this.countries[countries[correctAnswer]]);
       this.answerFlagEls.forEach((el, i) => {
-        el.imgs.forEach(img => this._setFlagImage(img, countries[i]));
+        el.imgs.forEach(img => this.constructor._setFlagImage(img, countries[i]));
         el.style.visibility = '';
         el._isCorrectAnswer = i == correctAnswer;
       });
@@ -244,35 +298,6 @@ class FlagQuiz extends App {
     }
   }
 
-  async _getCountries() {
-    const countries = await fetch(this.constructor._COUNTRIES_JSON_URL).then(resp => resp.json());
-
-    if (typeof countries != 'object') {
-      throw new Error(`Country data from '${this.constructor._COUNTRIES_JSON_URL}' is formatted incorrectly`);
-    }
-
-    this.constructor._EXCLUDED_COUNTRIES.forEach(countryCode => delete countries[countryCode]);
-
-    return countries;
-  }
-
-  async _getFlagImage(countryCode) {
-    const url = this.constructor._flagUrl(countryCode);
-    let response = await this.constructor._getCachedResponse(this.constructor._CACHES.flags, url);
-
-    if (!response) {
-      response = await fetch(url);
-
-      if (response.status < 400) {
-        this.constructor._cacheResponse(this.constructor._CACHES.flags, url, response.clone());
-      } else {
-        throw new Error(`Failed to fetch flag image for ${countryCode}. Response from ${url} was "${response.status}: ${response.statusText}"`);
-      }
-    }
-
-    return 'data:image/svg+xml;base64,' + btoa(await response.text());
-  }
-
   _randomCountries(num) {
     const numCountries = Math.max(0, parseInt(num) || 0);
     const countries = this.countryQueue.splice(0, numCountries);
@@ -281,19 +306,6 @@ class FlagQuiz extends App {
     this.countryPool.push(...countries);
 
     return countries;
-  }
-
-  _setFlagImage(img, countryCode) {
-    img._countryCode = countryCode;
-    img.src = DEFAULT_IMAGE;
-    // TODO: flag alt text
-
-    this._getFlagImage(countryCode)
-      .then(src => {
-        if (img._countryCode == countryCode) {
-          img.src = src;
-        }
-      });
   }
 }
 
