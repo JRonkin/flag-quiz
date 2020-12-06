@@ -68,30 +68,6 @@ body
   flex-direction: column;
 }
 
-.Row
-{
-  display: flex;
-  margin-top: -1rem;
-  margin-left: -1rem;
-  flex-wrap: wrap;
-}
-
-.Col
-{
-  padding-top: 1rem;
-  padding-left: 1rem;
-}
-
-.Col-6
-{
-  width: 50%;
-}
-
-.Cell-6
-{
-  height: 50%;
-}
-
 /* Common Modules */
 
 .Text
@@ -102,7 +78,7 @@ body
 .Title
 {
   text-align: center;
-  font-size: 4rem;
+  font-size: 3rem;
   letter-spacing: 2px;
   font-family: var(--font-family-title);
 }
@@ -110,7 +86,7 @@ body
 .Heading
 {
   text-align: center;
-  font-size: 3rem;
+  font-size: 2rem;
   font-family: var(--font-family-heading);
   font-weight: bold;
 }
@@ -161,7 +137,7 @@ body
   display: flex;
   margin: auto;
   height: 100%;
-  padding: 2rem 1rem;
+  padding: 1rem;
   flex-direction: column;
 }
 
@@ -201,28 +177,56 @@ body
   text-align: center;
 }
 
+.Home-menu
+{
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 1rem;
+}
+
+.Home-menu
+{
+  position: relative;
+}
+
+.Home-loading,
+.Home-error
+{
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  transform: translateY(-50%);
+  text-align: center;
+}
+
+.App[data-loaded] .Home-loading,
+.App:not([data-loaded="false"]) .Home-error
+{
+  display: none;
+}
+
 .Home-button
 {
   width: 100%;
   height: 100%;
 }
 
-.App[data-loaded] .Home-loading,
-.App:not([data-loaded="false"]) .Home-error,
-.App:not([data-loaded="true"]) .Home-menu
+.App:not([data-loaded="true"]) .Home-button
 {
-  display: none;
+  visibility: hidden;
 }
 
 /* Guess Country Page */
 
 .GuessCountry-title
 {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .GuessCountry-flag
 {
+  margin-bottom: 2rem;
   width: 100%;
   height: 0;
   flex-grow: 1;
@@ -231,8 +235,9 @@ body
 
 .GuessCountry-answers
 {
-  margin-top: 2rem;
-  flex-shrink: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 1rem;
 }
 
 .GuessCountry-answer
@@ -245,22 +250,22 @@ body
 
 .GuessFlag-title
 {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .GuessFlag-country
 {
+  margin-bottom: 1.5rem;
   text-align: center;
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
 .GuessFlag-answers
 {
   display: grid;
-  margin-top: 2rem;
   height: 0;
   flex-grow: 1;
-  grid-template: 1fr 1fr / 1fr 1fr;
+  grid-template: 1fr 1fr 1fr 1fr / 1fr;
   grid-gap: 1rem;
 }
 
@@ -280,4 +285,52 @@ body
   left: 0;
   margin: auto;
   object-fit: contain;
+}
+
+@media (min-width: 768px) {
+  .Title
+  {
+    font-size: 4rem;
+  }
+
+  .Heading
+  {
+    font-size: 3rem;
+  }
+
+  .App-page
+  {
+    padding: 2rem 1rem;
+  }
+
+  .Home-menu
+  {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .GuessCountry-title
+  {
+    margin-bottom: 2rem;
+  }
+
+  .GuessCountry-answers
+  {
+    grid-template: 1fr 1fr / 1fr 1fr;
+  }
+
+  .GuessFlag-title
+  {
+    margin-bottom: 2rem;
+  }
+
+  .GuessFlag-country
+  {
+    margin-bottom: 2rem;
+    font-size: 2rem;
+  }
+
+  .GuessFlag-answers
+  {
+    grid-template: 1fr 1fr / 1fr 1fr;
+  }
 }
