@@ -1,6 +1,6 @@
 {
   "background_color": "#fff",
-  "description": "Test your knowledge of flags around the world. Ad-free quiz game, no internet required.",
+  "description": "Ad-free quiz game -- Test your knowledge of flags around the world. Guess the flag of a country or the country of a flag.",
   "display": "standalone",
   "icons": [
     {
