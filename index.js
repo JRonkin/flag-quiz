@@ -118,6 +118,8 @@ class FlagQuiz extends App {
   async load() {
     try {
       this.countries = await this._getCountries();
+      this.countryQueue = shuffle(Object.keys(this.countries));
+      this.countryPool = this.countryQueue.splice(this.countryQueue.length / 2);
       this._resolveLoad();
     } catch (err) {
       this._rejectLoad(err);
@@ -198,8 +200,12 @@ class FlagQuiz extends App {
 
   _randomCountries(num) {
     const numCountries = Math.max(0, parseInt(num) || 0);
+    const countries = this.countryQueue.splice(0, numCountries);
 
-    return shuffle(Object.keys(this.countries), numCountries).slice(0, numCountries);
+    this.countryQueue.push(...shuffle(this.countryPool, numCountries).splice(0, numCountries));
+    this.countryPool.push(...countries);
+
+    return countries;
   }
 
   _setFlagImage(img, countryCode) {
