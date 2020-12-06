@@ -1,3 +1,5 @@
+const DEFAULT_IMAGE = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+
 function shuffle(array, limit = array.length) {
   const maxIndex = Math.max(0, Math.min(parseInt(limit) || 0, array.length));
 
@@ -15,6 +17,15 @@ function shuffle(array, limit = array.length) {
 class App {
   static get PAGE_HOME() {
     return 0;
+  }
+
+  static async _cacheResponse(request, response) {
+    // TODO
+  }
+
+  static async _getCachedResponse(countryCode) {
+    // TODO
+    return null;
   }
 
   constructor(element) {
@@ -73,10 +84,6 @@ class FlagQuiz extends App {
     });
   }
 
-  cacheCountries() {
-    // TODO
-  }
-
   init() {
     super.init();
 
@@ -94,7 +101,7 @@ class FlagQuiz extends App {
     this.answerFlagEls = [...this.element.querySelectorAll('.js-answer-flag')];
 
     this.answerCountryEls.forEach(el => el.addEventListener('click', () => {
-      if (el.isCorrectAnswer) {
+      if (el._isCorrectAnswer) {
         this.newCountryQuestion();
       } else {
         el.style.visibility = 'hidden';
@@ -104,7 +111,7 @@ class FlagQuiz extends App {
     this.answerFlagEls.forEach(el => {
       el.imgs = [...el.querySelectorAll('.js-answer-flag-img')];
       el.addEventListener('click', () => {
-        if (el.isCorrectAnswer) {
+        if (el._isCorrectAnswer) {
           this.newFlagQuestion();
         } else {
           el.style.visibility = 'hidden';
@@ -136,7 +143,7 @@ class FlagQuiz extends App {
       this.answerCountryEls.forEach((el, i) => {
         el.innerText = this.countries[countries[i]];
         el.style.visibility = '';
-        el.isCorrectAnswer = i == correctAnswer;
+        el._isCorrectAnswer = i == correctAnswer;
       });
     }
   }
@@ -151,7 +158,7 @@ class FlagQuiz extends App {
       this.answerFlagEls.forEach((el, i) => {
         el.imgs.forEach(img => this._setFlagImage(img, countries[i]));
         el.style.visibility = '';
-        el.isCorrectAnswer = i == correctAnswer;
+        el._isCorrectAnswer = i == correctAnswer;
       });
     }
   }
@@ -172,30 +179,33 @@ class FlagQuiz extends App {
     return await this._loaded;
   }
 
-  _getFlagSvg(countryCode) {
-    if (this.offline) {
-      // TODO
-      throw new Error('Offline mode is not yet supported');
-    } else {
-      return `https://raw.githubusercontent.com/hjnilsson/country-flags/master/svg/${countryCode.toLowerCase()}.svg`;
+  async _getCountries() {
+    const countries = await fetch(this.constructor._COUNTRIES_JSON_URL).then(resp => resp.json());
+
+    if (typeof countries != 'object') {
+      throw new Error(`Country data from '${this.constructor._COUNTRIES_JSON_URL}' is formatted incorrectly`);
     }
+
+    this.constructor._EXCLUDED_COUNTRIES.forEach(countryCode => delete countries[countryCode]);
+
+    return countries;
   }
 
-  async _getCountries() {
-    if (this.offline) {
-      // TODO
-      throw new Error('Offline mode is not yet supported');
-    } else {
-      const countries = await fetch(this.constructor._COUNTRIES_JSON_URL).then(resp => resp.json());
+  async _getFlagImage(countryCode) {
+    const url = `https://raw.githubusercontent.com/hjnilsson/country-flags/master/svg/${countryCode.toLowerCase()}.svg`;
+    let response = await this.constructor._getCachedResponse(url);
 
-      if (typeof countries != 'object') {
-        throw new Error(`Country data from '${this.constructor._COUNTRIES_JSON_URL}' is formatted incorrectly`);
+    if (!response) {
+      response = await fetch(url);
+
+      if (response.status < 400) {
+        this.constructor._cacheResponse(url, response);
+      } else {
+        throw new Error(`Failed to fetch flag image for ${countryCode}. Response from ${url} was "${response.status}: ${response.statusText}"`);
       }
-
-      this.constructor._EXCLUDED_COUNTRIES.forEach(countryCode => delete countries[countryCode]);
-
-      return countries;
     }
+
+    return 'data:image/svg+xml;base64,' + btoa(await response.text());
   }
 
   _randomCountries(num) {
@@ -209,8 +219,16 @@ class FlagQuiz extends App {
   }
 
   _setFlagImage(img, countryCode) {
-    img.src = this._getFlagSvg(countryCode, this.offline);
+    img._countryCode = countryCode;
+    img.src = DEFAULT_IMAGE;
     // TODO: flag alt text
+
+    this._getFlagImage(countryCode)
+      .then(src => {
+        if (img._countryCode == countryCode) {
+          img.src = src;
+        }
+      });
   }
 }
 
