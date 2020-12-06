@@ -94,7 +94,20 @@ class FlagQuiz extends App {
 
   static get _EXCLUDED_COUNTRIES() {
     return [
-      'GB-NIR' // Excluded because the flag is the same as GB
+      'BV',     // Flag is the same as NO
+      'BQ',     // Flag is the same as NL
+      'GB-NIR', // Flag is the same as GB
+      'GP',     // Flag is the same as FR
+      'HM',     // Flag is the same as AU
+      'MF',     // Flag is the same as FR
+      'MQ',     // Flag is the same as FR
+      'NO',     // Flag is the same as FR
+      'PM',     // Flag is the same as FR
+      'RE',     // Flag is the same as FR
+      'SH',     // Flag is the same as GB
+      'SJ',     // Flag is the same as NO
+      'UM',     // Flag is the same as US
+      'YT'      // Flag is the same as FR
     ];
   }
 
@@ -284,4 +297,4 @@ class FlagQuiz extends App {
   }
 }
 
-new FlagQuiz(document.getElementById('app'));
+const app = new FlagQuiz(document.getElementById('app'));
