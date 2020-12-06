@@ -19,13 +19,33 @@ class App {
     return 0;
   }
 
-  static async _cacheResponse(request, response) {
-    // TODO
+  static get _CACHES() {
+    return {};
   }
 
-  static async _getCachedResponse(countryCode) {
-    // TODO
-    return null;
+  static async _cacheResponse(cacheName, request, response) {
+    if (window.caches) {
+      await window.caches.open(cacheName).then(cache => cache.put(request, response));
+    }
+  }
+
+  static async _initCaches() {
+    if (window.caches) {
+      const expectedCacheNamesSet = new Set(Object.values(this._CACHES));
+      const cacheNames = await window.caches.keys();
+
+      await Promise.all(cacheNames.map(async cacheName => {
+        if (!expectedCacheNamesSet.has(cacheName)) {
+          await caches.delete(cacheName);
+        }
+      }));
+    }
+  }
+
+  static async _getCachedResponse(cacheName, request) {
+    if (window.caches) {
+      return await window.caches.open(cacheName).then(cache => cache.match(request));
+    }
   }
 
   constructor(element) {
@@ -62,6 +82,12 @@ class FlagQuiz extends App {
     return 2;
   }
 
+  static get _CACHES() {
+    return Object.assign(super._CACHES, {
+      flags: 'flags-v1'
+    });
+  }
+
   static get _COUNTRIES_JSON_URL() {
     return 'https://raw.githubusercontent.com/hjnilsson/country-flags/master/countries.json';
   }
@@ -72,11 +98,16 @@ class FlagQuiz extends App {
     ];
   }
 
-  constructor(element, offline = false) {
+  static _flagUrl(countryCode) {
+    return `https://raw.githubusercontent.com/hjnilsson/country-flags/master/svg/${countryCode.toLowerCase()}.svg`;
+  }
+
+  constructor(element) {
     super(element);
 
     this.countries = {};
-    this.offline = offline;
+    this.countryQueue = [];
+    this.countryPool = [];
 
     this._loaded = new Promise((resolve, reject) => {
       this._resolveLoad = resolve;
@@ -119,7 +150,9 @@ class FlagQuiz extends App {
       });
     });
 
-    this.load().then(() => this.element.dataset.loaded = 'true');
+    this.load()
+      .then(() => this.element.dataset.loaded = 'true')
+      .catch(() => this.element.dataset.loaded = 'false');
   }
 
   async load() {
@@ -127,6 +160,7 @@ class FlagQuiz extends App {
       this.countries = await this._getCountries();
       this.countryQueue = shuffle(Object.keys(this.countries));
       this.countryPool = this.countryQueue.splice(this.countryQueue.length / 2);
+      await this._cacheAllFlags();
       this._resolveLoad();
     } catch (err) {
       this._rejectLoad(err);
@@ -179,6 +213,24 @@ class FlagQuiz extends App {
     return await this._loaded;
   }
 
+  async _cacheAllFlags() {
+    if (window.caches) {
+      const cache = await window.caches.open(this.constructor._CACHES.flags);
+
+      await Promise.all(Object.keys(this.countries).map(async countryCode => {
+        const url = this.constructor._flagUrl(countryCode);
+
+        if (!(await cache.match(url))) {
+          const response = await fetch(url);
+
+          if (response.status < 400) {
+            await cache.put(url, response);
+          }
+        }
+      }));
+    }
+  }
+
   async _getCountries() {
     const countries = await fetch(this.constructor._COUNTRIES_JSON_URL).then(resp => resp.json());
 
@@ -192,14 +244,14 @@ class FlagQuiz extends App {
   }
 
   async _getFlagImage(countryCode) {
-    const url = `https://raw.githubusercontent.com/hjnilsson/country-flags/master/svg/${countryCode.toLowerCase()}.svg`;
-    let response = await this.constructor._getCachedResponse(url);
+    const url = this.constructor._flagUrl(countryCode);
+    let response = await this.constructor._getCachedResponse(this.constructor._CACHES.flags, url);
 
     if (!response) {
       response = await fetch(url);
 
       if (response.status < 400) {
-        this.constructor._cacheResponse(url, response);
+        this.constructor._cacheResponse(this.constructor._CACHES.flags, url, response.clone());
       } else {
         throw new Error(`Failed to fetch flag image for ${countryCode}. Response from ${url} was "${response.status}: ${response.statusText}"`);
       }

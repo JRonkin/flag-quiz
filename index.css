@@ -162,6 +162,18 @@ body
 
 /* Home Page */
 
+.Home-loading
+{
+  text-align: center;
+}
+
+.App[data-loaded] .Home-loading,
+.App:not([data-loaded="false"]) .Home-error,
+.App:not([data-loaded="true"]) .Home-menu
+{
+  display: none;
+}
+
 .Home-button
 {
   width: 100%;
