@@ -97,6 +97,7 @@ class FlagQuiz extends App {
       'BV',     // Flag is the same as NO
       'BQ',     // Flag is the same as NL
       'GB-NIR', // Flag is the same as GB
+      'GF',     // Flag is the same as FR
       'GP',     // Flag is the same as FR
       'HM',     // Flag is the same as AU
       'MF',     // Flag is the same as FR
