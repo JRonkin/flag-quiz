@@ -281,7 +281,7 @@ body
   object-fit: contain;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 768px) and (min-height: 768px) {
   .Title
   {
     font-size: 4rem;
@@ -297,19 +297,9 @@ body
     padding: 2rem 1rem;
   }
 
-  .Home-menu
-  {
-    grid-template-columns: 1fr 1fr;
-  }
-
   .GuessCountry-title
   {
     margin-bottom: 2rem;
-  }
-
-  .GuessCountry-answers
-  {
-    grid-template: 1fr 1fr / 1fr 1fr;
   }
 
   .GuessFlag-title
@@ -321,6 +311,19 @@ body
   {
     margin-bottom: 2rem;
     font-size: 2rem;
+  }
+}
+
+@media (min-aspect-ratio: 1/1)
+{
+  .Home-menu
+  {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .GuessCountry-answers
+  {
+    grid-template: 1fr 1fr / 1fr 1fr;
   }
 
   .GuessFlag-answers
